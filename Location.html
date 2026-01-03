@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Viewer Location Map</title>
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        header {
+    background: #1a1a1a;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+footer {
+    background: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+    </style>
+</head>
+<body>
+ <header>
+    <h1>BHAGWATI READYWEAR</h1>
+    <p>Premium Gents Readywear</p>
+</header>
+<h2>Your Current Location</h2><input type="button" value="geolocation">
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    // Create map (temporary default view)
+    var map = L.map('map').setView([20, 78], 5);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Check if geolocation is supported
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+
+                // Zoom to user location
+                map.setView([lat, lng], 14);
+
+                // Marker for user
+                L.marker([lat, lng])
+                    .addTo(map)
+                    .bindPopup("You are here")
+                    .openPopup();
+            },
+            function() {
+                alert("Location access denied.");
+            }
+        );
+    } else {
+        alert("Geolocation not supported by this browser.");
+    }
+</script>
+<footer>
+    <p>© 2026 Bhagwati Readywear</p>
+</footer>
+
+
+</body>
+</html>
